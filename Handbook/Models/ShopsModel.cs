@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Handbook.ViewModels;
 
 namespace Handbook.Models
 {
@@ -65,8 +66,74 @@ namespace Handbook.Models
             return weekDays;
         }
 
-        public void Save()
+        public List<SHOP_SPECIALIZATION> GetShopSpecializations(int id)
         {
+            var list = new List<SHOP_SPECIALIZATION>();
+            foreach (var VARIABLE in _context.SHOP_SPECIALIZATION.Where(s => s.SHOP_ID == id))
+                list.Add(VARIABLE);
+            return list;
+        }
+
+        public void Save(UpdateViewModel viewModel)
+        {
+            SHOP shop = _context.SHOPs.First(s => s.ID == viewModel.shop.ID);
+            shop.SHOP1 = viewModel.Shop;
+            shop.ADDRESS = viewModel.Address;
+            shop.IMAGE = viewModel.Image;
+            shop.PHONE = viewModel.Phone;
+            shop.OWN_FORM_ID = viewModel.shop.OWN_FORM_ID;
+            _context.SaveChanges();
+        }
+
+        public void Remove(SHOP shop)
+        {
+            SHOP sh = _context.SHOPs.First(s => s.ID == shop.ID);
+            _context.SHOPs.Attach(sh);
+            _context.SHOPs.Remove(sh);
+            _context.SaveChanges();
+        }
+
+        public SHOP AddShop()
+        {
+            SHOP shop = new SHOP()
+            {
+                SHOP1 = "Example",
+                ADDRESS = "Example",
+                PHONE = "Example",
+                IMAGE = "../../Images/not found.jpg",
+                OWN_FORM_ID = 1
+            };
+            _context.SHOPs.Add(shop);
+            _context.SaveChanges();
+            Generate(shop);
+            return shop;
+        }
+
+        private void Generate(SHOP shop)
+        {
+            List<int> days = new List<int>();
+            foreach (var day in _context.WEEK_DAYS)
+                days.Add(day.ID);
+            foreach (var day in days)
+            {
+                _context.WORKING_HOURS.Add(new WORKING_HOURS()
+                {
+                    SHOP_ID = shop.ID,
+                    OPEN_TIME = "8:00",
+                    CLOSE_TIME = "22:00",
+                    DAY_OF_WEEK_ID = day
+                });
+                _context.SaveChanges();
+            }
+        }
+
+        public void SaveShop(AddViewModel viewModel)
+        {
+            SHOP shop = _context.SHOPs.First(s => s.ID == viewModel._shop.ID);
+            shop.SHOP1 = viewModel.Shop;
+            shop.ADDRESS = viewModel.Address;
+            shop.IMAGE = viewModel.Image;
+            shop.PHONE = viewModel.Phone;
             _context.SaveChanges();
         }
     }

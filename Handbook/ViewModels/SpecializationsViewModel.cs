@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,7 +10,7 @@ namespace Handbook.ViewModels
 {
     class SpecializationsViewModel : ViewModelBase
     {
-        private SPECIALIZATION _specialization;
+        private readonly SPECIALIZATION _specialization;
 
         public SpecializationsViewModel(SPECIALIZATION specialization)
         {

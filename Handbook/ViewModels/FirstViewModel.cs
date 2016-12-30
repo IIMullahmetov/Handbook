@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using Handbook.Models;
+using Handbook.Views;
 using SampleMVVM.Commands;
 
 namespace Handbook.ViewModels
@@ -33,8 +34,9 @@ namespace Handbook.ViewModels
             }
         }
         private DelegateCommand _getDelegateCommand;
+        private DelegateCommand _getAddCommand;
         public ICommand GetSearchCommand => _getDelegateCommand ?? (_getDelegateCommand = new DelegateCommand(Search));
-
+        public ICommand GetAddCommand => _getAddCommand ?? (_getAddCommand = new DelegateCommand(Add));
         #region Constructor
 
         public FirstViewModel()
@@ -57,6 +59,14 @@ namespace Handbook.ViewModels
             foreach (ShopsViewModel shopsViewModel in AllShops)
                 if (_shops.Contains(shopsViewModel.shop))
                     ShopsList.Add(shopsViewModel);
+        }
+
+        private void Add()
+        {
+            AddWindow view = new AddWindow();
+            AddViewModel viewModel = new AddViewModel(view);
+            view.DataContext = viewModel;
+            view.Show();
         }
     }
 }

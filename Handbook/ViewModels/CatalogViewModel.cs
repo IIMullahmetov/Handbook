@@ -56,7 +56,7 @@ namespace Handbook.ViewModels
         private void Update()
         {
             UpdateWindow view = new UpdateWindow();
-            UpdateViewModel viewModel = new UpdateViewModel(_shop);
+            UpdateViewModel viewModel = new UpdateViewModel(_shop, view);
             view.DataContext = viewModel;
             view.Show();
         }

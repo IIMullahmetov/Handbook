@@ -10,7 +10,7 @@
             <Grid HorizontalAlignment="Left" Height="32"  VerticalAlignment="Top" Width="965" Margin="0,0,-2,-1">
                 <TextBox x:Name="Query" VerticalContentAlignment="Center" HorizontalAlignment="Left" Height="22" Margin="10,4,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="680" BorderBrush="LightGray" TextChanged="SearchString" Text="{Binding Query, UpdateSourceTrigger=PropertyChanged}"/>
                 <Button Content="Найти" HorizontalAlignment="Left" Margin="695,5,0,7" Width="80"  BorderBrush="White" Background="White" Click="SearchClick" Command="{Binding GetSearchCommand}"/>
-                <Button x:Name="Add" Content="Добавить торговую точку" HorizontalAlignment="Left" Margin="779,5,5,5" VerticalAlignment="Top" Width="170" Background="White" BorderBrush="White" Click="AddClick" />
+                <Button x:Name="Add" Content="Добавить торговую точку" HorizontalAlignment="Left" Margin="779,5,5,5" VerticalAlignment="Top" Width="170" Background="White" BorderBrush="White" Click="AddClick" Command="{Binding GetAddCommand}" />
             </Grid>
         </Border>
         <ScrollViewer HorizontalAlignment="Left" Height="510"  VerticalAlignment="Top" Width="770" Margin="5,50,0,0" BorderBrush="White">

@@ -4,89 +4,81 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using Handbook.Models;
 using Handbook.Views;
 using SampleMVVM.Commands;
-using Xceed.Wpf.Toolkit;
 
 namespace Handbook.ViewModels
 {
-    class UpdateViewModel : ViewModelBase
+    class AddViewModel : ViewModelBase
     {
-        private readonly ShopsModel _model;
-        public SHOP shop { get; set; }
+        public SHOP _shop;
+        private AddWindow _view;
         private DelegateCommand _getSaveCommand;
         private DelegateCommand _getCloseCommand;
-        private DelegateCommand _getRemoveCommand;
-        private readonly UpdateWindow _view;
-        public ObservableCollection<OwnFormsViewModel> OwnFormsList { get; set; }
+        private ShopsModel _model = new ShopsModel();
         public ObservableCollection<WorkingHoursViewModel> WorkingHoursViewModels { get; set; }
 
         public string Shop
         {
-            get { return shop.SHOP1; }
+            get { return _shop.SHOP1; }
             set
             {
-                shop.SHOP1 = value;
+                _shop.SHOP1 = value;
                 OnPropertyChanged("Shop");
             }
         }
         public string Image
         {
-            get { return shop.IMAGE; }
+            get { return _shop.IMAGE; }
             set
             {
-                shop.IMAGE = value;
+                _shop.IMAGE = value;
                 OnPropertyChanged("Image");
             }
         }
         public string Address
         {
-            get { return shop.ADDRESS; }
+            get { return _shop.ADDRESS; }
             set
             {
-                shop.ADDRESS = value;
+                _shop.ADDRESS = value;
                 OnPropertyChanged("Address");
             }
         }
         public string Phone
         {
-            get { return shop.PHONE; }
+            get { return _shop.PHONE; }
             set
             {
-                shop.PHONE = value;
+                _shop.PHONE = value;
                 OnPropertyChanged("Phone");
             }
         }
-        
-        public UpdateViewModel(SHOP shop, UpdateWindow view)
+        public AddViewModel(AddWindow view)
         {
+            _shop = _model.AddShop();
             _view = view;
-            this.shop = shop;
             _model = new ShopsModel();
-            var ownForms = _model.GetOwnForms();
-            OwnFormsList = new ObservableCollection<OwnFormsViewModel>(ownForms.Select(o => new OwnFormsViewModel(o, this.shop, OwnFormsList)));
-            WorkingHoursViewModels = new ObservableCollection<WorkingHoursViewModel>(_model.GetWorkingHours(this.shop).Select(d => new WorkingHoursViewModel(d)));
+
+            WorkingHoursViewModels = new ObservableCollection<WorkingHoursViewModel>(_model.GetWorkingHours(_shop).Select(d => new WorkingHoursViewModel(d)));
+
         }
 
         public ICommand GetSaveCommand => _getSaveCommand ?? (_getSaveCommand = new DelegateCommand(Save));
         public ICommand GetCloseCommand => _getCloseCommand ?? (_getCloseCommand = new DelegateCommand(Close));
-        public ICommand GetRemoveCommand => _getRemoveCommand ?? (_getRemoveCommand = new DelegateCommand(Remove));
+
         private void Save()
         {
-            _model.Save(this);
+            _model.SaveShop(this);
             _view.Close();
         }
 
         private void Close()
         {
-            _view.Close();
-        }
-
-        private void Remove()
-        {
-            _model.Remove(shop);
+            _model.Remove(_shop);
             _view.Close();
         }
     }

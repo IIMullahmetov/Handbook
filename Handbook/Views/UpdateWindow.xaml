@@ -27,15 +27,8 @@
                         <Label Content="Телефон:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="155"/>
                         <TextBox x:Name="Phone" HorizontalAlignment="Left" Height="26" Margin="170,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="600" VerticalContentAlignment="Center" Text="{Binding Phone}"/>
                     </Grid>
-                    <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="210" Margin="10,10,-8,0" VerticalAlignment="Top" Width="760">
+                    <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="auto" Margin="10,10,-8,0" VerticalAlignment="Top" Width="760">
                         <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="58*"/>
-                                <ColumnDefinition Width="321*"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition/>
-                            </Grid.RowDefinitions>
                             <Label Content="Время работы" HorizontalAlignment="Left" Width="100" Height="25" VerticalAlignment="Top" Margin="0, 0, 0 , 0"/>
                             <Label Content="Воскресенье" HorizontalAlignment="Left" Margin="5,25,0,0" VerticalAlignment="Top" Height="25" Width="85" HorizontalContentAlignment="Right"/>
                             <Label Content="Понедельник" HorizontalAlignment="Left" Margin="5,50,0,0" VerticalAlignment="Top" Height="25" Width="85" HorizontalContentAlignment="Right"/>
@@ -56,47 +49,28 @@
                                     </ListView.ItemTemplate>
                                 </ListView>
                             </StackPanel>
-                            <Label Content="Открытие:" HorizontalAlignment="Left" Width="75" Height="25" VerticalAlignment="Top" Margin="115,0,0,0" Grid.ColumnSpan="2"/>
-                            <Label Content="Закрытие:" HorizontalAlignment="Left" Width="75" Height="25" VerticalAlignment="Top" Margin="85,0,0,0" Grid.Column="1"/>
-                        </Grid>
-                    </Border>
-                    <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="auto" Margin="10,15,0,0" VerticalAlignment="Top" Width="760">
-                        <Grid x:Name="Grid">
-                            <Expander Header="Специализация" Margin="5, 5, 5, 5">
-                                <Grid Background="White" Height="auto">
-                                    <ListView ItemsSource="{Binding SpecializationsList}" IsSynchronizedWithCurrentItem="True">
-                                        <ListView.ItemTemplate>
-                                            <DataTemplate >
-                                                <CheckBox Content="{Binding Specialization}"/>
-                                            </DataTemplate>
-                                        </ListView.ItemTemplate>
-                                    </ListView>
-                                </Grid>
-                            </Expander>
+                            <Label Content="Открытие:" HorizontalAlignment="Left" Width="75" Height="25" VerticalAlignment="Top" Margin="120,0,0,0"/>
+                            <Label Content="Закрытие:" HorizontalAlignment="Left" Width="75" Height="25" VerticalAlignment="Top" Margin="200,0,0,0"/>
                         </Grid>
                     </Border>
                     <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="auto" Margin="10,15,0,0" VerticalAlignment="Top" Width="760">
                         <Grid>
                             <Expander Header="Форма собственности" Margin="5, 5, 5, 5">
-                                <Grid Background="White" Height="auto">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="6*"/>
-                                        <ColumnDefinition Width="83*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <ListView ItemsSource="{Binding OwnFormsList}" Grid.ColumnSpan="2" >
+                                <StackPanel Background="White" Height="auto">
+                                    <ListView ItemsSource="{Binding OwnFormsList}">
                                         <ListView.ItemTemplate>
                                             <DataTemplate>
-                                                <RadioButton Content="{Binding OwnForm}"/>
+                                                <RadioButton Content="{Binding OwnForm, UpdateSourceTrigger=PropertyChanged}" IsChecked="{Binding IsMyOwnForm}" GroupName="_of"/>
                                             </DataTemplate>
                                         </ListView.ItemTemplate>
                                     </ListView>
-                                </Grid>
+                                </StackPanel>
                             </Expander>
                         </Grid>
                     </Border>
                     <Button Content="Обновить" HorizontalAlignment="Left" Margin="10,15,0,0" VerticalAlignment="Top" Width="760" Background="White" Click="UpdateClick" Command="{Binding GetSaveCommand}"/>
-                    <Button Content="Отмена" HorizontalAlignment="Left" IsCancel="True" Margin="10,10,0,0" VerticalAlignment="Top" Width="760" Background="White" Click="CanselClick"/>
-                    <Button Content="Удалить торговую точку" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="760" Background="White" Click="RemoveClick"/>
+                    <Button Content="Отмена" HorizontalAlignment="Left" IsCancel="True" Margin="10,10,0,0" VerticalAlignment="Top" Width="760" Background="White" Click="CanselClick" Command="{Binding GetCloseCommand}" />
+                    <Button Content="Удалить торговую точку" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="760" Background="White" Click="RemoveClick" Command="{Binding GetRemoveCommand}"/>
                 </StackPanel>
             </InlineUIContainer>
         </ScrollViewer>

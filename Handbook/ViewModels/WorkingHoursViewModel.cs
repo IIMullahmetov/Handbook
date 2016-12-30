@@ -16,6 +16,7 @@ namespace Handbook.ViewModels
         
         public WorkingHoursViewModel(WORKING_HOURS workingHours)
         {
+            
             _workingHours = workingHours;
         }
 
