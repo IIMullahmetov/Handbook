@@ -1,0 +1,604 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище Model" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="OWN_FORMS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OWN_FORMS" Type="nvarchar" MaxLength="25" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PRODUCTS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PRODUCT" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="DESCRIPTION" Type="nvarchar" MaxLength="400" Nullable="false" />
+          <Property Name="SHOP_ID" Type="int" Nullable="false" />
+          <Property Name="PRICE" Type="money" Nullable="false" />
+          <Property Name="IMAGE" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="COUNT" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SHOP">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SHOP" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="PHONE" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="ADDRESS" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="OWN_FORM_ID" Type="int" Nullable="false" />
+          <Property Name="IMAGE" Type="nvarchar" MaxLength="300" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SHOP_SPECIALIZATION">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="SHOP_ID" Type="int" Nullable="false" />
+          <Property Name="SPECIALIZATION_ID" Type="int" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SPECIALIZATION">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SPECIALIZATION" Type="nvarchar" MaxLength="25" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="WEEK_DAYS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DAY_OF_WEEK" Type="nvarchar" MaxLength="25" Nullable="false" />
+        </EntityType>
+        <EntityType Name="WORKING_HOURS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="SHOP_ID" Type="int" Nullable="false" />
+          <Property Name="DAY_OF_WEEK_ID" Type="int" Nullable="false" />
+          <Property Name="OPEN_TIME" Type="nvarchar" MaxLength="5" Nullable="false" />
+          <Property Name="CLOSE_TIME" Type="nvarchar" MaxLength="5" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "Buying Guide.dbo.HOURS" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+        <EntityType Name="HOURS">
+          <Key>
+            <PropertyRef Name="SHOP_ID" />
+            <PropertyRef Name="DAY_OF_WEEK_ID" />
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="SHOP_ID" Type="int" Nullable="false" />
+          <Property Name="DAY_OF_WEEK_ID" Type="int" Nullable="false" />
+          <Property Name="OPEN_TIME" Type="nvarchar" MaxLength="5" />
+          <Property Name="CLOSE_TIME" Type="nvarchar" MaxLength="5" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "Buying Guide.dbo.SPECIALIZATION_VIEW" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+        <EntityType Name="SPECIALIZATION_VIEW">
+          <Key>
+            <PropertyRef Name="SHOP_ID" />
+            <PropertyRef Name="SPECIALIZATION_ID" />
+          </Key>
+          <Property Name="SHOP_ID" Type="int" Nullable="false" />
+          <Property Name="SPECIALIZATION_ID" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_OF_ID">
+          <End Role="OWN_FORMS" Type="Self.OWN_FORMS" Multiplicity="1" />
+          <End Role="SHOP" Type="Self.SHOP" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OWN_FORMS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SHOP">
+              <PropertyRef Name="OWN_FORM_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_S">
+          <End Role="SPECIALIZATION" Type="Self.SPECIALIZATION" Multiplicity="1" />
+          <End Role="SHOP_SPECIALIZATION" Type="Self.SHOP_SPECIALIZATION" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SPECIALIZATION">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SHOP_SPECIALIZATION">
+              <PropertyRef Name="SPECIALIZATION_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_S_ID">
+          <End Role="SHOP" Type="Self.SHOP" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="WORKING_HOURS" Type="Self.WORKING_HOURS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SHOP">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="WORKING_HOURS">
+              <PropertyRef Name="SHOP_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SH_ID">
+          <End Role="SHOP" Type="Self.SHOP" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PRODUCTS" Type="Self.PRODUCTS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SHOP">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PRODUCTS">
+              <PropertyRef Name="SHOP_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SHOP">
+          <End Role="SHOP" Type="Self.SHOP" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="SHOP_SPECIALIZATION" Type="Self.SHOP_SPECIALIZATION" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SHOP">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SHOP_SPECIALIZATION">
+              <PropertyRef Name="SHOP_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WD_ID">
+          <End Role="WEEK_DAYS" Type="Self.WEEK_DAYS" Multiplicity="1" />
+          <End Role="WORKING_HOURS" Type="Self.WORKING_HOURS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WEEK_DAYS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="WORKING_HOURS">
+              <PropertyRef Name="DAY_OF_WEEK_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="insertSpec" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="shopId" Type="int" Mode="In" />
+          <Parameter Name="specId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="insertWorkHours" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="dayId" Type="int" Mode="In" />
+          <Parameter Name="shopId" Type="int" Mode="In" />
+          <Parameter Name="open" Type="nvarchar" Mode="In" />
+          <Parameter Name="close" Type="nvarchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="Хранилище ModelContainer">
+          <EntitySet Name="OWN_FORMS" EntityType="Self.OWN_FORMS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PRODUCTS" EntityType="Self.PRODUCTS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SHOP" EntityType="Self.SHOP" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SHOP_SPECIALIZATION" EntityType="Self.SHOP_SPECIALIZATION" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SPECIALIZATION" EntityType="Self.SPECIALIZATION" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WEEK_DAYS" EntityType="Self.WEEK_DAYS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WORKING_HOURS" EntityType="Self.WORKING_HOURS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HOURS" EntityType="Self.HOURS" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [HOURS].[SHOP_ID] AS [SHOP_ID], 
+    [HOURS].[DAY_OF_WEEK_ID] AS [DAY_OF_WEEK_ID], 
+    [HOURS].[OPEN_TIME] AS [OPEN_TIME], 
+    [HOURS].[CLOSE_TIME] AS [CLOSE_TIME], 
+    [HOURS].[ID] AS [ID]
+    FROM [dbo].[HOURS] AS [HOURS]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="SPECIALIZATION_VIEW" EntityType="Self.SPECIALIZATION_VIEW" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [SPECIALIZATION_VIEW].[SHOP_ID] AS [SHOP_ID], 
+    [SPECIALIZATION_VIEW].[SPECIALIZATION_ID] AS [SPECIALIZATION_ID]
+    FROM [dbo].[SPECIALIZATION_VIEW] AS [SPECIALIZATION_VIEW]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_OF_ID" Association="Self.FK_OF_ID">
+            <End Role="OWN_FORMS" EntitySet="OWN_FORMS" />
+            <End Role="SHOP" EntitySet="SHOP" />
+          </AssociationSet>
+          <AssociationSet Name="FK_S" Association="Self.FK_S">
+            <End Role="SPECIALIZATION" EntitySet="SPECIALIZATION" />
+            <End Role="SHOP_SPECIALIZATION" EntitySet="SHOP_SPECIALIZATION" />
+          </AssociationSet>
+          <AssociationSet Name="FK_S_ID" Association="Self.FK_S_ID">
+            <End Role="SHOP" EntitySet="SHOP" />
+            <End Role="WORKING_HOURS" EntitySet="WORKING_HOURS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SH_ID" Association="Self.FK_SH_ID">
+            <End Role="SHOP" EntitySet="SHOP" />
+            <End Role="PRODUCTS" EntitySet="PRODUCTS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SHOP" Association="Self.FK_SHOP">
+            <End Role="SHOP" EntitySet="SHOP" />
+            <End Role="SHOP_SPECIALIZATION" EntitySet="SHOP_SPECIALIZATION" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WD_ID" Association="Self.FK_WD_ID">
+            <End Role="WEEK_DAYS" EntitySet="WEEK_DAYS" />
+            <End Role="WORKING_HOURS" EntitySet="WORKING_HOURS" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="OWN_FORMS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OWN_FORMS1" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="SHOPs" Relationship="Self.FK_OF_ID" FromRole="OWN_FORMS" ToRole="SHOP" />
+        </EntityType>
+        <EntityType Name="PRODUCT">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PRODUCT1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DESCRIPTION" Type="String" MaxLength="400" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SHOP_ID" Type="Int32" Nullable="false" />
+          <Property Name="PRICE" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="IMAGE" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="COUNT" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="SHOP" Relationship="Self.FK_SH_ID" FromRole="PRODUCTS" ToRole="SHOP" />
+        </EntityType>
+        <EntityType Name="SHOP">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SHOP1" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PHONE" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ADDRESS" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="OWN_FORM_ID" Type="Int32" Nullable="false" />
+          <Property Name="IMAGE" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="OWN_FORMS" Relationship="Self.FK_OF_ID" FromRole="SHOP" ToRole="OWN_FORMS" />
+          <NavigationProperty Name="PRODUCTS" Relationship="Self.FK_SH_ID" FromRole="SHOP" ToRole="PRODUCTS" />
+          <NavigationProperty Name="WORKING_HOURS" Relationship="Self.FK_S_ID" FromRole="SHOP" ToRole="WORKING_HOURS" />
+          <NavigationProperty Name="SHOP_SPECIALIZATION" Relationship="Self.FK_SHOP" FromRole="SHOP" ToRole="SHOP_SPECIALIZATION" />
+        </EntityType>
+        <EntityType Name="SHOP_SPECIALIZATION">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="SHOP_ID" Type="Int32" Nullable="false" />
+          <Property Name="SPECIALIZATION_ID" Type="Int32" Nullable="false" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="SHOP" Relationship="Self.FK_SHOP" FromRole="SHOP_SPECIALIZATION" ToRole="SHOP" />
+          <NavigationProperty Name="SPECIALIZATION" Relationship="Self.FK_S" FromRole="SHOP_SPECIALIZATION" ToRole="SPECIALIZATION" />
+        </EntityType>
+        <EntityType Name="SPECIALIZATION">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SPECIALIZATION1" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="SHOP_SPECIALIZATION" Relationship="Self.FK_S" FromRole="SPECIALIZATION" ToRole="SHOP_SPECIALIZATION" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="WEEK_DAYS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DAY_OF_WEEK" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="WORKING_HOURS" Relationship="Self.FK_WD_ID" FromRole="WEEK_DAYS" ToRole="WORKING_HOURS" />
+        </EntityType>
+        <EntityType Name="WORKING_HOURS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="SHOP_ID" Type="Int32" Nullable="false" />
+          <Property Name="DAY_OF_WEEK_ID" Type="Int32" Nullable="false" />
+          <Property Name="OPEN_TIME" Type="String" MaxLength="5" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CLOSE_TIME" Type="String" MaxLength="5" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="SHOP" Relationship="Self.FK_S_ID" FromRole="WORKING_HOURS" ToRole="SHOP" />
+          <NavigationProperty Name="WEEK_DAYS" Relationship="Self.FK_WD_ID" FromRole="WORKING_HOURS" ToRole="WEEK_DAYS" />
+        </EntityType>
+        <EntityType Name="HOUR">
+          <Key>
+            <PropertyRef Name="SHOP_ID" />
+            <PropertyRef Name="DAY_OF_WEEK_ID" />
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="SHOP_ID" Type="Int32" Nullable="false" />
+          <Property Name="DAY_OF_WEEK_ID" Type="Int32" Nullable="false" />
+          <Property Name="OPEN_TIME" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="CLOSE_TIME" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="SPECIALIZATION_VIEW">
+          <Key>
+            <PropertyRef Name="SHOP_ID" />
+            <PropertyRef Name="SPECIALIZATION_ID" />
+          </Key>
+          <Property Name="SHOP_ID" Type="Int32" Nullable="false" />
+          <Property Name="SPECIALIZATION_ID" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_OF_ID">
+          <End Role="OWN_FORMS" Type="Self.OWN_FORMS" Multiplicity="1" />
+          <End Role="SHOP" Type="Self.SHOP" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OWN_FORMS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SHOP">
+              <PropertyRef Name="OWN_FORM_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SH_ID">
+          <End Role="SHOP" Type="Self.SHOP" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PRODUCTS" Type="Self.PRODUCT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SHOP">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PRODUCTS">
+              <PropertyRef Name="SHOP_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_S_ID">
+          <End Role="SHOP" Type="Self.SHOP" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="WORKING_HOURS" Type="Self.WORKING_HOURS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SHOP">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="WORKING_HOURS">
+              <PropertyRef Name="SHOP_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SHOP">
+          <End Role="SHOP" Type="Self.SHOP" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="SHOP_SPECIALIZATION" Type="Self.SHOP_SPECIALIZATION" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SHOP">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SHOP_SPECIALIZATION">
+              <PropertyRef Name="SHOP_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_S">
+          <End Role="SPECIALIZATION" Type="Self.SPECIALIZATION" Multiplicity="1" />
+          <End Role="SHOP_SPECIALIZATION" Type="Self.SHOP_SPECIALIZATION" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SPECIALIZATION">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SHOP_SPECIALIZATION">
+              <PropertyRef Name="SPECIALIZATION_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WD_ID">
+          <End Role="WEEK_DAYS" Type="Self.WEEK_DAYS" Multiplicity="1" />
+          <End Role="WORKING_HOURS" Type="Self.WORKING_HOURS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WEEK_DAYS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="WORKING_HOURS">
+              <PropertyRef Name="DAY_OF_WEEK_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Context" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="OWN_FORMS" EntityType="Self.OWN_FORMS" />
+          <EntitySet Name="PRODUCTS" EntityType="Self.PRODUCT" />
+          <EntitySet Name="SHOPs" EntityType="Self.SHOP" />
+          <EntitySet Name="SHOP_SPECIALIZATION" EntityType="Self.SHOP_SPECIALIZATION" />
+          <EntitySet Name="SPECIALIZATIONs" EntityType="Self.SPECIALIZATION" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="WEEK_DAYS" EntityType="Self.WEEK_DAYS" />
+          <EntitySet Name="WORKING_HOURS" EntityType="Self.WORKING_HOURS" />
+          <EntitySet Name="HOURS" EntityType="Self.HOUR" />
+          <EntitySet Name="SPECIALIZATION_VIEW" EntityType="Self.SPECIALIZATION_VIEW" />
+          <AssociationSet Name="FK_OF_ID" Association="Self.FK_OF_ID">
+            <End Role="OWN_FORMS" EntitySet="OWN_FORMS" />
+            <End Role="SHOP" EntitySet="SHOPs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SH_ID" Association="Self.FK_SH_ID">
+            <End Role="SHOP" EntitySet="SHOPs" />
+            <End Role="PRODUCTS" EntitySet="PRODUCTS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_S_ID" Association="Self.FK_S_ID">
+            <End Role="SHOP" EntitySet="SHOPs" />
+            <End Role="WORKING_HOURS" EntitySet="WORKING_HOURS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SHOP" Association="Self.FK_SHOP">
+            <End Role="SHOP" EntitySet="SHOPs" />
+            <End Role="SHOP_SPECIALIZATION" EntitySet="SHOP_SPECIALIZATION" />
+          </AssociationSet>
+          <AssociationSet Name="FK_S" Association="Self.FK_S">
+            <End Role="SPECIALIZATION" EntitySet="SPECIALIZATIONs" />
+            <End Role="SHOP_SPECIALIZATION" EntitySet="SHOP_SPECIALIZATION" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WD_ID" Association="Self.FK_WD_ID">
+            <End Role="WEEK_DAYS" EntitySet="WEEK_DAYS" />
+            <End Role="WORKING_HOURS" EntitySet="WORKING_HOURS" />
+          </AssociationSet>
+          <FunctionImport Name="insertSpec">
+            <Parameter Name="shopId" Mode="In" Type="Int32" />
+            <Parameter Name="specId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="insertWorkHours">
+            <Parameter Name="dayId" Mode="In" Type="Int32" />
+            <Parameter Name="shopId" Mode="In" Type="Int32" />
+            <Parameter Name="open" Mode="In" Type="String" />
+            <Parameter Name="close" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище ModelContainer" CdmEntityContainer="Context">
+          <EntitySetMapping Name="OWN_FORMS">
+            <EntityTypeMapping TypeName="Model.OWN_FORMS">
+              <MappingFragment StoreEntitySet="OWN_FORMS">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="OWN_FORMS1" ColumnName="OWN_FORMS" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PRODUCTS">
+            <EntityTypeMapping TypeName="Model.PRODUCT">
+              <MappingFragment StoreEntitySet="PRODUCTS">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="PRODUCT1" ColumnName="PRODUCT" />
+                <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
+                <ScalarProperty Name="SHOP_ID" ColumnName="SHOP_ID" />
+                <ScalarProperty Name="PRICE" ColumnName="PRICE" />
+                <ScalarProperty Name="IMAGE" ColumnName="IMAGE" />
+                <ScalarProperty Name="COUNT" ColumnName="COUNT" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SHOPs">
+            <EntityTypeMapping TypeName="Model.SHOP">
+              <MappingFragment StoreEntitySet="SHOP">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="SHOP1" ColumnName="SHOP" />
+                <ScalarProperty Name="PHONE" ColumnName="PHONE" />
+                <ScalarProperty Name="ADDRESS" ColumnName="ADDRESS" />
+                <ScalarProperty Name="OWN_FORM_ID" ColumnName="OWN_FORM_ID" />
+                <ScalarProperty Name="IMAGE" ColumnName="IMAGE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SHOP_SPECIALIZATION">
+            <EntityTypeMapping TypeName="Model.SHOP_SPECIALIZATION">
+              <MappingFragment StoreEntitySet="SHOP_SPECIALIZATION">
+                <ScalarProperty Name="SHOP_ID" ColumnName="SHOP_ID" />
+                <ScalarProperty Name="SPECIALIZATION_ID" ColumnName="SPECIALIZATION_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SPECIALIZATIONs">
+            <EntityTypeMapping TypeName="Model.SPECIALIZATION">
+              <MappingFragment StoreEntitySet="SPECIALIZATION">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="SPECIALIZATION1" ColumnName="SPECIALIZATION" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="Model.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WEEK_DAYS">
+            <EntityTypeMapping TypeName="Model.WEEK_DAYS">
+              <MappingFragment StoreEntitySet="WEEK_DAYS">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="DAY_OF_WEEK" ColumnName="DAY_OF_WEEK" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WORKING_HOURS">
+            <EntityTypeMapping TypeName="Model.WORKING_HOURS">
+              <MappingFragment StoreEntitySet="WORKING_HOURS">
+                <ScalarProperty Name="SHOP_ID" ColumnName="SHOP_ID" />
+                <ScalarProperty Name="DAY_OF_WEEK_ID" ColumnName="DAY_OF_WEEK_ID" />
+                <ScalarProperty Name="OPEN_TIME" ColumnName="OPEN_TIME" />
+                <ScalarProperty Name="CLOSE_TIME" ColumnName="CLOSE_TIME" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HOURS">
+            <EntityTypeMapping TypeName="Model.HOUR">
+              <MappingFragment StoreEntitySet="HOURS">
+                <ScalarProperty Name="SHOP_ID" ColumnName="SHOP_ID" />
+                <ScalarProperty Name="DAY_OF_WEEK_ID" ColumnName="DAY_OF_WEEK_ID" />
+                <ScalarProperty Name="OPEN_TIME" ColumnName="OPEN_TIME" />
+                <ScalarProperty Name="CLOSE_TIME" ColumnName="CLOSE_TIME" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SPECIALIZATION_VIEW">
+            <EntityTypeMapping TypeName="Model.SPECIALIZATION_VIEW">
+              <MappingFragment StoreEntitySet="SPECIALIZATION_VIEW">
+                <ScalarProperty Name="SHOP_ID" ColumnName="SHOP_ID" />
+                <ScalarProperty Name="SPECIALIZATION_ID" ColumnName="SPECIALIZATION_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="insertSpec" FunctionName="Хранилище Model.insertSpec" />
+          <FunctionImportMapping FunctionImportName="insertWorkHours" FunctionName="Хранилище Model.insertWorkHours" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

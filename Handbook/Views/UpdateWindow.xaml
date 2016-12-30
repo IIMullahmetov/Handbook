@@ -1,0 +1,104 @@
+﻿<Window x:Class="Handbook.Views.UpdateWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        mc:Ignorable="d"
+        Title="Редактор торговой точки" Height="600" Width="800" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+    <Border BorderBrush="White" BorderThickness="1" HorizontalAlignment="Left" Height="570" Margin="5,0,0,0" VerticalAlignment="Top" Width="790" CornerRadius="2">
+        <ScrollViewer HorizontalAlignment="Left" Height="562"  VerticalAlignment="Top" Width="790" Name="ScrollViewer" Margin="-11,0,0,-11">
+            <InlineUIContainer>
+                <StackPanel HorizontalAlignment="Left" Width="785">
+                    <Grid Height="45">
+                        <Label Content="Название торговой точки:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="155"/>
+                        <TextBox x:Name="Shop" HorizontalAlignment="Left" Height="26" Margin="170,10,5,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="600" VerticalContentAlignment="Center" Text="{Binding Shop}"/>
+                    </Grid>
+                    <Grid Height="45">
+                        <Label Content="Адрес:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="155"/>
+                        <TextBox x:Name="Address" HorizontalAlignment="Left" Height="26" Margin="170,10,5,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="600" VerticalContentAlignment="Center" Text="{Binding Address}"/>
+                    </Grid>
+                    <Grid Height="45">
+                        <Label Content="Добавить изображение:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="155"/>
+                        <TextBox x:Name="ImageFile" HorizontalAlignment="Left" Height="26" Margin="170,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="528" VerticalContentAlignment="Center" TextChanged="ImageFileTextChanged" Text="{Binding Image}"/>
+                        <Button x:Name="Choose" Content="Обзор" HorizontalAlignment="Left" Margin="698,10,0,0" Width="72" Height="26" VerticalAlignment="Top" Click="ChooseOnClick"/>
+                    </Grid>
+                    <Grid Height="45">
+                        <Label Content="Телефон:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="155"/>
+                        <TextBox x:Name="Phone" HorizontalAlignment="Left" Height="26" Margin="170,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="600" VerticalContentAlignment="Center" Text="{Binding Phone}"/>
+                    </Grid>
+                    <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="210" Margin="10,10,-8,0" VerticalAlignment="Top" Width="760">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="58*"/>
+                                <ColumnDefinition Width="321*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Label Content="Время работы" HorizontalAlignment="Left" Width="100" Height="25" VerticalAlignment="Top" Margin="0, 0, 0 , 0"/>
+                            <Label Content="Воскресенье" HorizontalAlignment="Left" Margin="5,25,0,0" VerticalAlignment="Top" Height="25" Width="85" HorizontalContentAlignment="Right"/>
+                            <Label Content="Понедельник" HorizontalAlignment="Left" Margin="5,50,0,0" VerticalAlignment="Top" Height="25" Width="85" HorizontalContentAlignment="Right"/>
+                            <Label Content="Вторник" HorizontalAlignment="Left" Margin="5,75,0,0" VerticalAlignment="Top" Height="25" Width="85" HorizontalContentAlignment="Right"/>
+                            <Label Content="Среда" HorizontalAlignment="Left" Margin="5,100,0,0" VerticalAlignment="Top" Height="25" Width="85" HorizontalContentAlignment="Right"/>
+                            <Label Content="Четверг" HorizontalAlignment="Left" Margin="5,125,0,0" VerticalAlignment="Top" Height="25" Width="85" HorizontalContentAlignment="Right"/>
+                            <Label Content="Пятница" HorizontalAlignment="Left" Margin="5,150,0,0" VerticalAlignment="Top" Height="25" Width="85" HorizontalContentAlignment="Right"/>
+                            <Label Content="Суббота" HorizontalAlignment="Left" Margin="5,175,0,0" VerticalAlignment="Top" Height="25" Width="85" HorizontalContentAlignment="Right"/>
+                            <StackPanel Margin="114,25,14,5" Width="630" Orientation="Horizontal" Grid.ColumnSpan="2">
+                                <ListView ItemsSource="{Binding WorkingHoursViewModels}" IsSynchronizedWithCurrentItem="True" HorizontalContentAlignment="Left" Margin="0,0,0,-12" BorderBrush="White" Opacity="100">
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" Margin="1, 0, 1, 1">
+                                                    <xctk:TimePicker Name="_0" Text="{Binding OpenTime}" Margin="0, 0, 5, 0" Width="75"/>
+                                                    <xctk:TimePicker Name="_1" Text="{Binding CloseTime}" Margin="0 0, 5, 0" Width="75"/>
+                                                </StackPanel>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                            </StackPanel>
+                            <Label Content="Открытие:" HorizontalAlignment="Left" Width="75" Height="25" VerticalAlignment="Top" Margin="115,0,0,0" Grid.ColumnSpan="2"/>
+                            <Label Content="Закрытие:" HorizontalAlignment="Left" Width="75" Height="25" VerticalAlignment="Top" Margin="85,0,0,0" Grid.Column="1"/>
+                        </Grid>
+                    </Border>
+                    <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="auto" Margin="10,15,0,0" VerticalAlignment="Top" Width="760">
+                        <Grid x:Name="Grid">
+                            <Expander Header="Специализация" Margin="5, 5, 5, 5">
+                                <Grid Background="White" Height="auto">
+                                    <ListView ItemsSource="{Binding SpecializationsList}" IsSynchronizedWithCurrentItem="True">
+                                        <ListView.ItemTemplate>
+                                            <DataTemplate >
+                                                <CheckBox Content="{Binding Specialization}"/>
+                                            </DataTemplate>
+                                        </ListView.ItemTemplate>
+                                    </ListView>
+                                </Grid>
+                            </Expander>
+                        </Grid>
+                    </Border>
+                    <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="auto" Margin="10,15,0,0" VerticalAlignment="Top" Width="760">
+                        <Grid>
+                            <Expander Header="Форма собственности" Margin="5, 5, 5, 5">
+                                <Grid Background="White" Height="auto">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="6*"/>
+                                        <ColumnDefinition Width="83*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <ListView ItemsSource="{Binding OwnFormsList}" Grid.ColumnSpan="2" >
+                                        <ListView.ItemTemplate>
+                                            <DataTemplate>
+                                                <RadioButton Content="{Binding OwnForm}"/>
+                                            </DataTemplate>
+                                        </ListView.ItemTemplate>
+                                    </ListView>
+                                </Grid>
+                            </Expander>
+                        </Grid>
+                    </Border>
+                    <Button Content="Обновить" HorizontalAlignment="Left" Margin="10,15,0,0" VerticalAlignment="Top" Width="760" Background="White" Click="UpdateClick" Command="{Binding GetSaveCommand}"/>
+                    <Button Content="Отмена" HorizontalAlignment="Left" IsCancel="True" Margin="10,10,0,0" VerticalAlignment="Top" Width="760" Background="White" Click="CanselClick"/>
+                    <Button Content="Удалить торговую точку" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="760" Background="White" Click="RemoveClick"/>
+                </StackPanel>
+            </InlineUIContainer>
+        </ScrollViewer>
+    </Border>
+</Window>
