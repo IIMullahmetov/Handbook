@@ -13,13 +13,13 @@
                 <Button x:Name="Add" Content="Добавить торговую точку" HorizontalAlignment="Left" Margin="779,5,5,5" VerticalAlignment="Top" Width="170" Background="White" BorderBrush="White" Click="AddClick" Command="{Binding GetAddCommand}" />
             </Grid>
         </Border>
-        <ScrollViewer HorizontalAlignment="Left" Height="510"  VerticalAlignment="Top" Width="770" Margin="5,50,0,0" BorderBrush="White">
+        <ScrollViewer HorizontalAlignment="Left" Height="510"  VerticalAlignment="Top" Width="970" Margin="5,50,0,0" BorderBrush="White">
             <InlineUIContainer>
                 <ListView ItemsSource="{Binding ShopsList}" IsSynchronizedWithCurrentItem="True">
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <Button  Margin="0" Background="White" Height="100" Width="732" Command="{Binding OpenShopCatalog}">
-                                <Grid Margin="0, 0, 0, 0" Height="100" Width="732">
+                            <Button  Margin="0" Background="White" Height="100" Width="930" Command="{Binding OpenShopCatalog}" >
+                                <Grid Margin="0, 0, 0, 0" Height="100" Width="930">
                                     <Image Source="{Binding Image}" Margin="4, 4, 0, 0" HorizontalAlignment="Left" Width="250" Height="90"/>
                                     <Label Content="{Binding Phone}" Margin="0, 0, 5, 5" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
                                     <Label Content="{Binding Address}" Margin="0, 0, 5, 25" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
@@ -30,36 +30,5 @@
                 </ListView>
             </InlineUIContainer>
         </ScrollViewer>
-        <Border BorderBrush="LightGray" BorderThickness="1" Height="auto" Width="190" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,50,5,0" CornerRadius="2" MinHeight="90">
-            <StackPanel Height="auto" Width="190" HorizontalAlignment="Right" VerticalAlignment="Top" CanHorizontallyScroll="False" CanVerticallyScroll="False" Margin="-2,-1,0,-12">
-                <Expander Header="Специализация" Margin="5, 5, 5, 5">
-                    <Grid Background="White" Height="auto">
-                        <ListView ItemsSource="{Binding SpecializationsList}" IsSynchronizedWithCurrentItem="True">
-                            <ListView.ItemTemplate>
-                                <DataTemplate >
-                                    <CheckBox Content="{Binding Specialization}"/>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
-                    </Grid>
-                </Expander>
-                <Expander Header="Форма собственности" Margin="5, 5, 5, 5">
-                    <Grid Background="White" Height="auto">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="6*"/>
-                            <ColumnDefinition Width="83*"/>
-                        </Grid.ColumnDefinitions>
-                        <ListView ItemsSource="{Binding OwnFormsList}" Grid.ColumnSpan="2" >
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <CheckBox Content="{Binding OwnForm}"/>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
-                    </Grid>
-                </Expander>
-                <Button x:Name="Find" Content="Подобрать" HorizontalAlignment="Left" Margin="5, 5, 5, 18" VerticalAlignment="Top" Width="180" Background="White" BorderBrush="White" Click="FinderClick"/>
-            </StackPanel>
-        </Border>
     </Grid>
 </Window>

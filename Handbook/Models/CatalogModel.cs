@@ -14,7 +14,6 @@ namespace Handbook.Models
         public CatalogModel(int id)
         {
             _id = id;
-            
         }
 
         public List<PRODUCT> GetProducts()

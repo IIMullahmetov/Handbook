@@ -38,8 +38,8 @@ namespace Handbook.ViewModels
         private void SearchProduct()
         {
             ProductsList.Clear();
-            _products = _model.SearchProducts(Query);
             AllProducts = new ObservableCollection<ProductsViewModel>(_model.GetProducts().Select(p => new ProductsViewModel(p)));
+            _products = _model.SearchProducts(Query);
             foreach (ProductsViewModel viewModel in AllProducts)
                 if (_products.Contains(viewModel.product))
                     ProductsList.Add(viewModel);

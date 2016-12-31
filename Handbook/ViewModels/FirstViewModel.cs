@@ -38,7 +38,7 @@ namespace Handbook.ViewModels
 
         public ICommand GetSearchCommand => _getDelegateCommand ?? (_getDelegateCommand = new DelegateCommand(Search));
         public ICommand GetAddCommand => _getAddCommand ?? (_getAddCommand = new DelegateCommand(Add));
-        
+
         public FirstViewModel()
         {
 
