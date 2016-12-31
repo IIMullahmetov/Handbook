@@ -22,7 +22,7 @@
                         <Grid Height="45">
                             <Label Content="Добавить изображение:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="155"/>
                             <TextBox x:Name="ImageFile" HorizontalAlignment="Left" Height="26" Margin="170,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="528" VerticalContentAlignment="Center" TextChanged="ImageFileTextChanged" Text="{Binding Image}"/>
-                            <Button x:Name="Choose" Content="Обзор" HorizontalAlignment="Left" Margin="698,10,0,0" Width="72" Height="26" VerticalAlignment="Top" Click="ChooseOnClick"/>
+                            <Button x:Name="Choose" Content="Обзор" HorizontalAlignment="Left" Margin="698,10,0,0" Width="72" Height="26" VerticalAlignment="Top" Click="ChooseOnClick" Command="{Binding GetOpenFileCommand}"/>
                         </Grid>
                         <Grid Height="45">
                             <Label Content="Телефон:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="155"/>

@@ -25,6 +25,9 @@ namespace Handbook.Models
 
         public List<SHOP> GetShops()
         {
+            _shops.Clear();
+            foreach (SHOP shop in _context.SHOPs)
+                _shops.Add(shop);
             return _shops;
         }
 

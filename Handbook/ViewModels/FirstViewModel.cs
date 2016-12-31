@@ -22,7 +22,7 @@ namespace Handbook.ViewModels
         public ObservableCollection<OwnFormsViewModel> OwnFormsList { get; set; }
 
         private List<SHOP> _shops;
-        private string _query;
+        private string _query = "";
 
         public string Query
         {
@@ -35,22 +35,22 @@ namespace Handbook.ViewModels
         }
         private DelegateCommand _getDelegateCommand;
         private DelegateCommand _getAddCommand;
+
         public ICommand GetSearchCommand => _getDelegateCommand ?? (_getDelegateCommand = new DelegateCommand(Search));
         public ICommand GetAddCommand => _getAddCommand ?? (_getAddCommand = new DelegateCommand(Add));
-        #region Constructor
-
+        
         public FirstViewModel()
         {
+
             _shops = _model.GetShops();
             var specializations = _model.GetSpecializations();
             var ownForms = _model.GetOwnForms();
             SpecializationsList = new ObservableCollection<SpecializationsViewModel>(specializations.Select(s => new SpecializationsViewModel(s)));
             OwnFormsList = new ObservableCollection<OwnFormsViewModel>(ownForms.Select(o => new OwnFormsViewModel(o)));
-            ShopsList = new ObservableCollection<ShopsViewModel>(_shops.Select(s => new ShopsViewModel(s)));
+            ShopsList = new ObservableCollection<ShopsViewModel>(_shops.Select(s => new ShopsViewModel(s, this)));
             AllShops = new ObservableCollection<ShopsViewModel>(_model.GetShops().Select(s=> new ShopsViewModel(s)));
         }
 
-        #endregion
         private void Search()
         {
             _shops = _model.SearchShop(Query);
@@ -64,9 +64,18 @@ namespace Handbook.ViewModels
         private void Add()
         {
             AddWindow view = new AddWindow();
-            AddViewModel viewModel = new AddViewModel(view);
+            AddViewModel viewModel = new AddViewModel(view, this);
             view.DataContext = viewModel;
             view.Show();
+        }
+
+        public void UpdateWindow()
+        {
+            ShopsList.Clear();
+            AllShops = new ObservableCollection<ShopsViewModel>(_model.GetShops().Select(s => new ShopsViewModel(s)));
+            foreach (ShopsViewModel shopsViewModel in AllShops)
+                if (_shops.Contains(shopsViewModel.shop))
+                    ShopsList.Add(shopsViewModel);
         }
     }
 }

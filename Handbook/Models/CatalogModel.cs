@@ -14,12 +14,14 @@ namespace Handbook.Models
         public CatalogModel(int id)
         {
             _id = id;
-            foreach (PRODUCT product in _context.PRODUCTS.Where(p=>p.SHOP_ID==_id))
-               _products.Add(product);
+            
         }
 
         public List<PRODUCT> GetProducts()
         {
+            _products.Clear();
+            foreach (PRODUCT product in _context.PRODUCTS.Where(p => p.SHOP_ID == _id))
+                _products.Add(product);
             return _products;
         }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -16,6 +17,7 @@ namespace Handbook.ViewModels
     {
         public SHOP shop { get;}
 
+        public FirstViewModel _ViewModel;
         private int ID => shop.ID;
 
         public string Shop => shop.SHOP1;
@@ -25,6 +27,12 @@ namespace Handbook.ViewModels
         public string Phone => "Телефон:  " + shop.PHONE;
 
         public string Image => shop.IMAGE;
+
+        public ShopsViewModel(SHOP shop, FirstViewModel viewModel)
+        {
+            this.shop = shop;
+            _ViewModel = viewModel;
+        }
 
         public ShopsViewModel(SHOP shop)
         {
@@ -39,7 +47,7 @@ namespace Handbook.ViewModels
         {
             CatalogWindow view = new CatalogWindow();
             view.Title = Shop;
-            CatalogViewModel viewModel = new CatalogViewModel(shop);
+            CatalogViewModel viewModel = new CatalogViewModel(shop, _ViewModel, view);
             view.DataContext = viewModel;
             view.Show();
         }

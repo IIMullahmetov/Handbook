@@ -16,6 +16,16 @@ namespace Handbook.ViewModels
         public int Count => product.COUNT;
         public string Description => product.DESCRIPTION;
 
+        public string Isnt
+        {
+            get
+            {
+                if (product.COUNT != 0)
+                    return "Есть на складе";
+                return "Нет в наличии";
+            }
+        }
+
 
         public ProductsViewModel(PRODUCT product)
         {

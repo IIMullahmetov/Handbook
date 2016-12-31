@@ -18,16 +18,19 @@ namespace Handbook.ViewModels
         private DelegateCommand _getSearchCommand;
         private DelegateCommand _getUpdateCommand;
         private readonly SHOP _shop;
-        private List<PRODUCT> _products;
-
+        public List<PRODUCT> _products;
+        public CatalogWindow _window;
+        public FirstViewModel _ViewModel;
         public ObservableCollection<ProductsViewModel> ProductsList { get; set; }
         private ObservableCollection<ProductsViewModel> AllProducts { get; set; }
 
-        public CatalogViewModel(SHOP shop)
+        public CatalogViewModel(SHOP shop, FirstViewModel viewModel, CatalogWindow window)
         {
+            _window = window;
             _shop = shop;
             _model = new CatalogModel(_shop.ID);
             _products = _model.GetProducts();
+            _ViewModel = viewModel;
             ProductsList = new ObservableCollection<ProductsViewModel>(_products.Select(p=>new ProductsViewModel(p)));
             AllProducts = new ObservableCollection<ProductsViewModel>(_products.Select(p => new ProductsViewModel(p)));
         }
@@ -52,11 +55,10 @@ namespace Handbook.ViewModels
             }
         }
 
-
         private void Update()
         {
             UpdateWindow view = new UpdateWindow();
-            UpdateViewModel viewModel = new UpdateViewModel(_shop, view);
+            UpdateViewModel viewModel = new UpdateViewModel(_shop, view, _ViewModel, _window);
             view.DataContext = viewModel;
             view.Show();
         }

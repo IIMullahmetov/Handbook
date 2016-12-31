@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Handbook.Models;
 using Handbook.Views;
+using Microsoft.Win32;
 using SampleMVVM.Commands;
 using Xceed.Wpf.Toolkit;
 
@@ -18,11 +19,13 @@ namespace Handbook.ViewModels
         public SHOP shop { get; set; }
         private DelegateCommand _getSaveCommand;
         private DelegateCommand _getCloseCommand;
+        private DelegateCommand _getOpenFileCommand;
         private DelegateCommand _getRemoveCommand;
         private readonly UpdateWindow _view;
         public ObservableCollection<OwnFormsViewModel> OwnFormsList { get; set; }
         public ObservableCollection<WorkingHoursViewModel> WorkingHoursViewModels { get; set; }
-
+        private CatalogWindow _catalogWindow;
+        private FirstViewModel _viewModel;
         public string Shop
         {
             get { return shop.SHOP1; }
@@ -60,10 +63,12 @@ namespace Handbook.ViewModels
             }
         }
         
-        public UpdateViewModel(SHOP shop, UpdateWindow view)
+        public UpdateViewModel(SHOP shop, UpdateWindow view, FirstViewModel viewModel, CatalogWindow catalogWindow)
         {
             _view = view;
+            _viewModel = viewModel;
             this.shop = shop;
+            _catalogWindow = catalogWindow;
             _model = new ShopsModel();
             var ownForms = _model.GetOwnForms();
             OwnFormsList = new ObservableCollection<OwnFormsViewModel>(ownForms.Select(o => new OwnFormsViewModel(o, this.shop, OwnFormsList)));
@@ -73,9 +78,20 @@ namespace Handbook.ViewModels
         public ICommand GetSaveCommand => _getSaveCommand ?? (_getSaveCommand = new DelegateCommand(Save));
         public ICommand GetCloseCommand => _getCloseCommand ?? (_getCloseCommand = new DelegateCommand(Close));
         public ICommand GetRemoveCommand => _getRemoveCommand ?? (_getRemoveCommand = new DelegateCommand(Remove));
+        public ICommand GetOpenFileCommand => _getOpenFileCommand ?? (_getOpenFileCommand = new DelegateCommand(Open));
+
         private void Save()
         {
             _model.Save(this);
+            try
+            {
+                _viewModel.UpdateWindow();
+            }
+            catch (NullReferenceException e)
+            {
+                MessageBox.Show("Изменения сохранены, возможно потребуется перезапуск программы");
+                throw;
+            }
             _view.Close();
         }
 
@@ -87,7 +103,25 @@ namespace Handbook.ViewModels
         private void Remove()
         {
             _model.Remove(shop);
+            try
+            {
+                _viewModel.UpdateWindow();
+            }
+            catch (NullReferenceException e)
+            {
+                MessageBox.Show("Изменения сохранены, возможно потребуется перезапуск программы");
+                throw;
+            }
+            _catalogWindow.Close();
             _view.Close();
+        }
+
+        private void Open()
+        {
+            OpenFileDialog openFile = new OpenFileDialog();
+            openFile.Filter = "Image Files(*.BMP;*.JPG;*.GIF)|*.BMP;*.JPG;*.GIF";
+            openFile.ShowDialog();
+            Image = openFile.FileName;
         }
     }
 }
