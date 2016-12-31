@@ -223,6 +223,7 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="script.sql" />
     <Resource Include="Images\not found.jpg" />
     <Resource Include="Images\августина.jpg" />
     <Resource Include="Images\ашан.png" />
